@@ -60,4 +60,14 @@ public class Pos {
         }
         return result;
     }
+
+
+    public String findType(CartItem cartItem) {
+
+        Optional<Promotion> promotion = this.promotions.stream()
+                .filter(d -> d.getBarcode().equals(cartItem.getBarcode()))
+                .findFirst();
+
+        return promotion.isPresent() ? promotion.get().getType() : null;
+    }
 }

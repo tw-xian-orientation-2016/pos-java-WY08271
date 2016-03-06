@@ -11,10 +11,6 @@ public class CartItem {
         return count;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
     public void setCount(float count) {
         this.count += count;
     }

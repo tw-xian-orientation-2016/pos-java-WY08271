@@ -71,4 +71,35 @@ public class PosTest {
 
         assertSame(itemExpectResult, null);
     }
+
+    @Test
+    public void no_item_when_add_careItems() {
+        ItemService itemServiceMock = mock(ItemService.class);
+        List<Item> items = Arrays.asList(new Item("ITEM000000", "可口可乐", "瓶", 3.00F),
+                new Item("ITEM000001", "雪碧", "瓶", 3.00F));
+        when(itemServiceMock.getItems()).thenReturn(items);
+
+        PromotionService promotionService = new PromotionService();
+        Pos pos = new Pos(itemServiceMock, promotionService);
+
+        Item item = new Item("ITEM000001", "雪碧", "瓶", 3.00F);
+        pos.addCartItem(item, 1.00F);
+
+        assertThat(1, equalTo(pos.getCartItems().size()));
+    }
+
+    @Test
+    public void have_item_when_add_careItems() {
+        ItemService itemServiceMock = mock(ItemService.class);
+        List<Item> items = Arrays.asList(new Item("ITEM000000", "可口可乐", "瓶", 3.00F),
+                new Item("ITEM000001", "雪碧", "瓶", 3.00F));
+        when(itemServiceMock.getItems()).thenReturn(items);
+
+        PromotionService promotionService = new PromotionService();
+        Pos pos = new Pos(itemServiceMock, promotionService);
+
+
+        Item item = new Item("ITEM000001", "雪碧", "瓶", 3.00F);
+        pos.addCartItem(item, 1.00F);
+    }
 }

@@ -9,15 +9,27 @@ public class ReceiptItem {
         this.subTotal = subPrice;
     }
 
-    public CartItem getCartItem() {
-        return cartItem;
-    }
-
     public float getDiscountPrice() {
         return discountPrice;
     }
 
     public float getSubTotal() {
         return subTotal;
+    }
+
+    public float getCount() {
+        return this.cartItem.getCount();
+    }
+
+    public float getPrice() {
+        return this.cartItem.getPrice();
+    }
+
+    public String getName() {
+        return this.cartItem.getName();
+    }
+
+    public String getUnit() {
+        return this.cartItem.getUnit();
     }
 }

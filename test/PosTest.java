@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -101,5 +102,45 @@ public class PosTest {
 
         Item item = new Item("ITEM000001", "雪碧", "瓶", 3.00F);
         pos.addCartItem(item, 1.00F);
+    }
+
+    @Test
+    public void find_promotion_when_type_correct() {
+        ItemService itemServiceMock = mock(ItemService.class);
+        List<Item> items = Arrays.asList(new Item("ITEM000000", "可口可乐", "瓶", 3.00F),
+                new Item("ITEM000001", "雪碧", "瓶", 3.00F));
+        when(itemServiceMock.getItems()).thenReturn(items);
+
+        PromotionService promotionServiceMock = mock(PromotionService.class);
+        List<Promotion> promotions = Arrays.asList(new Promotion("ITEM000000", "BUY_TWO_GET_ONE_FREE"),
+                new Promotion("ITEM000001", "BUY_TWO_GET_ONE_FREE"));
+        when(promotionServiceMock.getPromotions()).thenReturn(promotions);
+
+        Pos pos = new Pos(itemServiceMock, promotionServiceMock);
+        CartItem cartItem = new CartItem(new Item("ITEM000001", "雪碧", "瓶", 3.00F), 1.00F);
+
+        String result = pos.findType(cartItem);
+
+        assertThat(result, is("BUY_TWO_GET_ONE_FREE"));
+    }
+
+    @Test
+    public void no_find_promotion_when_type_correct() {
+        ItemService itemServiceMock = mock(ItemService.class);
+        List<Item> items = Arrays.asList(new Item("ITEM000000", "可口可乐", "瓶", 3.00F),
+                new Item("ITEM000001", "雪碧", "瓶", 3.00F));
+        when(itemServiceMock.getItems()).thenReturn(items);
+
+        PromotionService promotionServiceMock = mock(PromotionService.class);
+        List<Promotion> promotions = Arrays.asList(new Promotion("ITEM000000", "BUY_TWO_GET_ONE_FREE"),
+                new Promotion("ITEM000004", "BUY_TWO_GET_ONE_FREE"));
+        when(promotionServiceMock.getPromotions()).thenReturn(promotions);
+
+        Pos pos = new Pos(itemServiceMock, promotionServiceMock);
+        CartItem cartItem = new CartItem(new Item("ITEM000001", "雪碧", "瓶", 3.00F), 1.00F);
+
+        String result = pos.findType(cartItem);
+
+        assertNull(result);
     }
 }

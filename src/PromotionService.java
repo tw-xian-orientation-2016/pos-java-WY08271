@@ -9,4 +9,8 @@ public class PromotionService {
                 new Promotion("ITEM000001", "BUY_TWO_GET_ONE_FREE"),
                 new Promotion("ITEM000005", "BUY_TWO_GET_ONE_FREE"));
     }
+
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
 }
